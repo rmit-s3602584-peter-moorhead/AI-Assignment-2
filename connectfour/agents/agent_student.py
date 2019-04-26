@@ -30,7 +30,7 @@ class StudentAgent(RandomAgent):
 
     def dfMiniMax(self, board, depth):
         # Goal return column with maximized scores of all possible next states
-        
+
         if depth == self.MaxDepth:
             return self.evaluateBoardState(board)
 
@@ -43,11 +43,11 @@ class StudentAgent(RandomAgent):
                 next_state = board.next_state(self.id % 2 + 1, move[1])
             else:
                 next_state = board.next_state(self.id, move[1])
-                
+
             moves.append( move )
             vals.append( self.dfMiniMax(next_state, depth + 1) )
 
-        
+
         if depth % 2 == 1:
             bestVal = min(vals)
         else:
@@ -57,24 +57,24 @@ class StudentAgent(RandomAgent):
 
     def evaluateBoardState(self, board):
         """
-        Your evaluation function should look at the current state and return a score for it. 
+        Your evaluation function should look at the current state and return a score for it.
         As an example, the random agent provided works as follows:
             If the opponent has won this game, return -1.
             If we have won the game, return 1.
             If neither of the players has won, return a random number.
         """
-        
+
         """
         These are the variables and functions for board objects which may be helpful when creating your Agent.
         Look into board.py for more information/descriptions of each, or to look for any other definitions which may help you.
 
         Board Variables:
-            board.width 
+            board.width
             board.height
             board.last_move
             board.num_to_connect
             board.winning_zones
-            board.score_array 
+            board.score_array
             board.current_player_score
 
         Board Functions:
@@ -86,7 +86,9 @@ class StudentAgent(RandomAgent):
             legal_moves()
             next_state(turn)
             winner()
-        """
-				
-        return random.uniform(0, 1)
 
+            test
+        """
+
+
+        return random.uniform(0, 1)
