@@ -86,9 +86,21 @@ class StudentAgent(RandomAgent):
             legal_moves()
             next_state(turn)
             winner()
-
-            test
         """
 
+        """+1 to each available tile"""
+        """if opponent has 2 in a row, block"""
+        """for i in range(10):
+            print (i)"""
 
-        return random.uniform(0, 1)
+        """board.valid_moves"""
+
+        if board.get_cell_value(0, 4) == 2:
+            return 0
+        elif board.get_cell_value(0, 4) == 1:
+            return 1
+        else:
+            return random.uniform(0,1)
+        """return 0"""
+
+        """return random.uniform(0, 1)"""
