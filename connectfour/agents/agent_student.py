@@ -86,6 +86,7 @@ class StudentAgent(RandomAgent):
             legal_moves()
             next_state(turn)
             winner()
+	    test
         """
 				
         return random.uniform(0, 1)
