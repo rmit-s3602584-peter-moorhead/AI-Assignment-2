@@ -6,6 +6,13 @@ class StudentAgent(RandomAgent):
         super().__init__(name)
         self.MaxDepth = 1
 
+    def test(self, board):
+        for row in range(0 , board.height):
+            for col in range(0 , board.width):
+                print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
+                return 0
+
+
 
     def get_move(self, board):
         """
@@ -47,7 +54,6 @@ class StudentAgent(RandomAgent):
             moves.append( move )
             vals.append( self.dfMiniMax(next_state, depth + 1) )
 
-
         if depth % 2 == 1:
             bestVal = min(vals)
         else:
@@ -55,7 +61,13 @@ class StudentAgent(RandomAgent):
 
         return bestVal
 
+
+    def test1():
+        return print("test")
+
     def evaluateBoardState(self, board):
+
+
         """
         Your evaluation function should look at the current state and return a score for it.
         As an example, the random agent provided works as follows:
@@ -95,12 +107,37 @@ class StudentAgent(RandomAgent):
 
         """board.valid_moves"""
 
+        """for i in range(self.width):
+            same_count = 1
+            curr = self.board[0][i]
+            for j in range(1, self.height):
+                if self.board[j][i] == curr:
+                    same_count += 1
+                    if same_count == 2 and curr != 0:
+                        return curr
+                else:
+                    same_count = 1
+                    curr = self.board[j][i]
+        return 0
+
+
         if board.get_cell_value(0, 4) == 2:
             return 0
         elif board.get_cell_value(0, 4) == 1:
             return 1
         else:
             return random.uniform(0,1)
-        """return 0"""
+        return 0
 
-        """return random.uniform(0, 1)"""
+        return random.uniform(0, 1)"""
+        """board1 = board[3][3]
+        return board1"""
+
+        for row in range(0 , board.height):
+            for col in range(0 , board.width):
+                print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
+        print("========================================")        
+
+        return random.uniform(0, 1)
+
+    """test(self, board)"""
