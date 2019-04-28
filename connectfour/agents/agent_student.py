@@ -67,6 +67,11 @@ class StudentAgent(RandomAgent):
 
     def evaluateBoardState(self, board):
 
+        print(board.width)
+        print("================================")
+
+        return random.uniform(0, 1)
+
 
         """
         Your evaluation function should look at the current state and return a score for it.
@@ -133,11 +138,11 @@ class StudentAgent(RandomAgent):
         """board1 = board[3][3]
         return board1"""
 
-        for row in range(0 , board.height):
+        """for row in range(0 , board.height):
             for col in range(0 , board.width):
                 print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
-        print("========================================")        
+        print("========================================")"""
 
-        return random.uniform(0, 1)
+
 
     """test(self, board)"""
