@@ -71,10 +71,23 @@ class StudentAgent(RandomAgent):
         opponentCount = 42
         rowCount = 0
 
-        for col in range(0, board.width):
-            if board.get_cell_value(col, 1) == 1:
-                rowCount = rowCount + 1
-        print(col, rowCount)
+        for row in range(0, board.height):
+            for col in range(0, board.width):
+                if board.get_cell_value(row, board.height) == 2:
+                    studentCount = studentCount - 1
+                    print(studentCount)
+
+                #if board.get_cell_value(col, board.width) == 2:
+                #    studentCount = studentCount - 1
+                #    print(studentCount)
+
+        if studentCount >= opponentCount:
+            return 0
+        else:
+            return 1
+
+
+        #print(row, rowCount)
 
         #for row in range(0 , board.height):
         #    for col in range(0 , board.width):
@@ -85,7 +98,7 @@ class StudentAgent(RandomAgent):
         #print(board.width)
         #print("================================")
 
-        return random.uniform(0, 1)
+        #return random.uniform(0, 1)
 
 
         """
