@@ -67,8 +67,23 @@ class StudentAgent(RandomAgent):
 
     def evaluateBoardState(self, board):
 
-        print(board.width)
-        print("================================")
+        studentCount = 42
+        opponentCount = 42
+        rowCount = 0
+
+        for col in range(0, board.width):
+            if board.get_cell_value(col, 1) == 1:
+                rowCount = rowCount + 1
+        print(col, rowCount)
+
+        #for row in range(0 , board.height):
+        #    for col in range(0 , board.width):
+        #        print(board.get_cell_value(row, col))
+        #print("================================")
+
+
+        #print(board.width)
+        #print("================================")
 
         return random.uniform(0, 1)
 
