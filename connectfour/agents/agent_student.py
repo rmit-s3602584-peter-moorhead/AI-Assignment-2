@@ -67,24 +67,73 @@ class StudentAgent(RandomAgent):
 
     def evaluateBoardState(self, board):
 
-        studentCount = 42
-        opponentCount = 42
-        rowCount = 0
+        playerOne = 0
+        test = board.board
 
-        for row in range(0, board.height):
-            for col in range(0, board.width):
-                if board.get_cell_value(row, board.height) == 2:
-                    studentCount = studentCount - 1
-                    print(studentCount)
+        for i in range(0, board.height):
+            for j in range(0, board.width):
+                try:
+                    if test[i][j] == test[i + 1][j] == 1:
+                        playerOne += 10
+                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == 1:
+                        playerOne += 100
+                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == test[i + 3][j] == 1:
+                        playerOne += 10000
+                    if test[i][j] == test[i + 1][j] == 2:
+                        playerOne -= 10
+                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == 2:
+                        playerOne -= 100
+                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == test[i + 3][j] == 2:
+                        playerOne -= 10000
+                except IndexError:
+                    pass
+
+
+
+                try:
+                    if test[i][j] == test[i][j + 1] == 1:
+                        playerOne += 10
+                    if test[i][j] == test[i][j + 1] == test[i][j + 2] == 1:
+                        playerOne += 100
+                    if test[i][j] == test[i][j + 1] == test[i + 2][j] == test[i][j + 3] == 1:
+                        playerOne += 10000
+                    if test[i][j] == test[i][j + 1] == 2:
+                        playerOne -= 10
+                    if test[i][j] == test[i][j + 1] == test[i][j + 2] == 2:
+                        playerOne -= 100
+                    if test[i][j] == test[i][j + 1] == test[i][j + 2] == test[i][j + 3] == 2:
+                        playerOne -= 10000
+                except IndexError:
+                    pass
+
+
+
+        print(playerOne)
+        return playerOne
+        #studentCount = 42
+        #opponentCount = 42
+        #rowCount = 0
+
+
+        #print(test)
+        #return 0
+
+        #for row in range(0, board.height):
+        #    for col in range(0, board.width):
+        #        if board.get_cell_value(row, board.height) == 2:
+        #            studentCount = studentCount - 1
+        #            print(studentCount)
 
                 #if board.get_cell_value(col, board.width) == 2:
                 #    studentCount = studentCount - 1
                 #    print(studentCount)
 
-        if studentCount >= opponentCount:
-            return 0
-        else:
-            return 1
+
+
+        #if studentCount >= opponentCount:
+        #    return 0
+        #else:
+        #    return 1
 
 
         #print(row, rowCount)
@@ -101,76 +150,69 @@ class StudentAgent(RandomAgent):
         #return random.uniform(0, 1)
 
 
-        """
-        Your evaluation function should look at the current state and return a score for it.
-        As an example, the random agent provided works as follows:
-            If the opponent has won this game, return -1.
-            If we have won the game, return 1.
-            If neither of the players has won, return a random number.
-        """
 
-        """
-        These are the variables and functions for board objects which may be helpful when creating your Agent.
-        Look into board.py for more information/descriptions of each, or to look for any other definitions which may help you.
-
-        Board Variables:
-            board.width
-            board.height
-            board.last_move
-            board.num_to_connect
-            board.winning_zones
-            board.score_array
-            board.current_player_score
-
-        Board Functions:
-            get_cell_value(row, col)
-            try_move(col)
-            valid_move(row, col)
-            valid_moves()
-            terminal(self)
-            legal_moves()
-            next_state(turn)
-            winner()
-        """
-
-        """+1 to each available tile"""
-        """if opponent has 2 in a row, block"""
-        """for i in range(10):
-            print (i)"""
-
-        """board.valid_moves"""
-
-        """for i in range(self.width):
-            same_count = 1
-            curr = self.board[0][i]
-            for j in range(1, self.height):
-                if self.board[j][i] == curr:
-                    same_count += 1
-                    if same_count == 2 and curr != 0:
-                        return curr
-                else:
-                    same_count = 1
-                    curr = self.board[j][i]
-        return 0
-
-
-        if board.get_cell_value(0, 4) == 2:
-            return 0
-        elif board.get_cell_value(0, 4) == 1:
-            return 1
-        else:
-            return random.uniform(0,1)
-        return 0
-
-        return random.uniform(0, 1)"""
-        """board1 = board[3][3]
-        return board1"""
-
-        """for row in range(0 , board.height):
-            for col in range(0 , board.width):
-                print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
-        print("========================================")"""
-
-
-
-    """test(self, board)"""
+        #"""Your evaluation function should look at the current state and return a score for it.
+        #As an example, the random agent provided works as follows:
+    #        If the opponent has won this game, return -1.
+#            If we have won the game, return 1.
+#            If neither of the players has won, return a random number.
+#
+#
+#        These are the variables and functions for board objects which may be helpful when creating your Agent.
+#        Look into board.py for more information/descriptions of each, or to look for any other definitions which may help you.
+#
+#        Board Variables:
+#            board.width
+#            board.height
+#            board.last_move
+#            board.num_to_connect
+#            board.winning_zones
+#            board.score_array
+#            board.current_player_score
+#
+#        Board Functions:
+#            get_cell_value(row, col)
+#            try_move(col)
+#            valid_move(row, col)
+#            valid_moves()
+#            terminal(self)
+#            legal_moves()
+#            next_state(turn)
+#            winner()
+#    """
+#
+#        """+1 to each available tile"""
+#        """if opponent has 2 in a row, block"""
+#        """for i in range(10):
+#            print (i)"""
+#
+#        """board.valid_moves"""
+#
+#        """for i in range(self.width):
+#            same_count = 1
+#            curr = self.board[0][i]
+#            for j in range(1, self.height):
+#                if self.board[j][i] == curr:
+#                    same_count += 1
+#                    if same_count == 2 and curr != 0:
+#                        return curr
+#                else:
+#                    same_count = 1
+#                    curr = self.board[j][i]
+###
+#    #    if board.get_cell_value(0, 4) == 2:
+#            return 0
+#        elif board.get_cell_value(0, 4) == 1:
+#            return 1
+#        else:
+#            return random.uniform(0,1)
+#        return 0
+#
+#        return random.uniform(0, 1)"""
+#        """board1 = board[3][3]
+#        return board1"""
+#
+#        """for row in range(0 , board.height):
+#            for col in range(0 , board.width):
+#                print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
+#        print("========================================")
