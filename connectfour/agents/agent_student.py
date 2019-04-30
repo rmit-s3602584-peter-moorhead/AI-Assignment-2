@@ -1,10 +1,11 @@
 from connectfour.agents.computer_player import RandomAgent
 import random
+import math
 
 class StudentAgent(RandomAgent):
     def __init__(self, name):
         super().__init__(name)
-        self.MaxDepth = 1
+        self.MaxDepth = 4
 
     def test(self, board):
         for row in range(0 , board.height):
@@ -38,6 +39,10 @@ class StudentAgent(RandomAgent):
     def dfMiniMax(self, board, depth):
         # Goal return column with maximized scores of all possible next states
 
+        if depth == 2 and board.winner() == self.id%2+1:
+            return -100000000
+
+
         if depth == self.MaxDepth:
             return self.evaluateBoardState(board)
 
@@ -59,6 +64,8 @@ class StudentAgent(RandomAgent):
         else:
             bestVal = max(vals)
 
+
+
         return bestVal
 
 
@@ -70,9 +77,14 @@ class StudentAgent(RandomAgent):
         playerOne = 0
         test = board.board
 
+        #if depth == 2 and board.winner == self.id % 2 + 1:
+        #    return -math.inf
+
+
         for i in range(0, board.height):
             for j in range(0, board.width):
                 try:
+                    #vertical
                     if test[i][j] == test[i + 1][j] == 1:
                         playerOne += 10
                     if test[i][j] == test[i + 1][j] == test[i + 2][j] == 1:
@@ -91,6 +103,7 @@ class StudentAgent(RandomAgent):
 
 
                 try:
+                    #horizontal
                     if test[i][j] == test[i][j + 1] == 1:
                         playerOne += 10
                     if test[i][j] == test[i][j + 1] == test[i][j + 2] == 1:
@@ -107,6 +120,42 @@ class StudentAgent(RandomAgent):
                     pass
 
 
+
+                try:
+                    #diagonal up
+                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == 1:
+                        playerOne += 10
+                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 1:
+                        playerOne += 100
+                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 1:
+                        playerOne += 10000
+
+                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == 2:
+                        playerOne -= 10
+                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 2:
+                        playerOne -= 100
+                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 2:
+                        playerOne -= 10000
+
+                except IndexError:
+                    pass
+                    #diagonal down
+                    if board.height > j - 3 > 0 and test[i][j] == test[i - 1][j - 1] == 1:
+                        playerOne += 10
+                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 1:
+                        playerOne += 100
+                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 1:
+                        playerOne += 10000
+
+                    if board.height > j - 3 > 0 and test[i][j] == test[i - 1][j - 1] == 2:
+                        playerOne -= 10
+                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 2:
+                        playerOne -= 100
+                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 2:
+                        playerOne -= 10000
+
+                except IndexError:
+                    pass
 
         print(playerOne)
         return playerOne
