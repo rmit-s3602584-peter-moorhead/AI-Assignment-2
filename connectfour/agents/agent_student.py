@@ -66,13 +66,35 @@ class StudentAgent(RandomAgent):
         return print("test")
 
     def evaluateBoardState(self, board):
+		score = 0:
+		state = board.board 
+		for i in range(0, board.width):
+			for j in range(0, board.height):
+				try:
+					# add player one vertical streaks to score
+					if state[i][j] == state[i][j + 1] == 0:
+						score += 1
+					if state[i][j] == state[i][j + 1] == state[i][j + 2] == 0:
+						score += 10
+					if state[i][j] == state[i][j+1] == state[i][j+2] == state[i][j+3] == 0:
+						score += 100
 
-        print(board.width)
-        print("================================")
-
-        return random.uniform(0, 1)
-
-
+					# subtract player two streaks from score
+					if state[i][j] == state[i][j + 1] == 1:
+						score -= 1
+					if state[i][j] == state[i][j + 1] == state[i][j + 2] == 1:
+						score -= 10
+					if state[i][j] == state[i][j+1] == state[i][j+2] == state[i][j+3] == 1:
+						score -= 100
+					except IndexError:
+						pass
+			
+		for row in range(0 , board.height):
+			for col in range(0 , board.width):
+				print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
+		print("========================================")
+		
+		
         """
         Your evaluation function should look at the current state and return a score for it.
         As an example, the random agent provided works as follows:
