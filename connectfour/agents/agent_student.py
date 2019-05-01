@@ -39,9 +39,19 @@ class StudentAgent(RandomAgent):
     def dfMiniMax(self, board, depth):
         # Goal return column with maximized scores of all possible next states
 
-        if depth == 2 and board.winner() == self.id%2+1:
-            return -100000000
+        #check if student wins in 2 moves, return large priority
+        if depth == 2 and board.winner() == self.id:
+            return 1000000
 
+        #check if opponent wins in 2 moves, return large negative to block
+        if depth == 2 and board.winner() == self.id%2+1:
+            return -100000
+
+        if depth == 3 and board.winner() == self.id%2+1:
+            return -100001
+
+        if depth == 4 and board.winner() == self.id%2+1:
+            return -100002
 
         if depth == self.MaxDepth:
             return self.evaluateBoardState(board)
@@ -74,194 +84,126 @@ class StudentAgent(RandomAgent):
 
     def evaluateBoardState(self, board):
 
+        #student board state score, init to 0
         playerOne = 0
+        #2d array init to the current board state
         test = board.board
 
-        #if depth == 2 and board.winner == self.id % 2 + 1:
-        #    return -math.inf
-
+        """search through the 2d array for 1 - 3 tokens in a row, giving higher priority depending
+        on if there is just one friendly token in a row or 3, or enemy token's 1 or 3 in a row
+        """
 
         for i in range(0, board.height):
             for j in range(0, board.width):
                 try:
-                    #vertical
+                    #searching for friendly tokens in a vertical line
                     if test[i][j] == test[i + 1][j] == 1:
                         playerOne += 10
                     if test[i][j] == test[i + 1][j] == test[i + 2][j] == 1:
                         playerOne += 100
                     if test[i][j] == test[i + 1][j] == test[i + 2][j] == test[i + 3][j] == 1:
-                        playerOne += 10000
+                        playerOne += 1000
+
+                    #searching for vertical enemy tokens in a vertical line
                     if test[i][j] == test[i + 1][j] == 2:
                         playerOne -= 10
                     if test[i][j] == test[i + 1][j] == test[i + 2][j] == 2:
                         playerOne -= 100
                     if test[i][j] == test[i + 1][j] == test[i + 2][j] == test[i + 3][j] == 2:
-                        playerOne -= 10000
+                        playerOne -= 1000
                 except IndexError:
                     pass
 
 
 
                 try:
-                    #horizontal
+                    #searching for friendly tokens in a horizontal line
                     if test[i][j] == test[i][j + 1] == 1:
                         playerOne += 10
                     if test[i][j] == test[i][j + 1] == test[i][j + 2] == 1:
                         playerOne += 100
                     if test[i][j] == test[i][j + 1] == test[i + 2][j] == test[i][j + 3] == 1:
-                        playerOne += 10000
+                        playerOne += 1000
+
+                    #searching for enemy tokens in a horizontal line
                     if test[i][j] == test[i][j + 1] == 2:
                         playerOne -= 10
                     if test[i][j] == test[i][j + 1] == test[i][j + 2] == 2:
                         playerOne -= 100
                     if test[i][j] == test[i][j + 1] == test[i][j + 2] == test[i][j + 3] == 2:
-                        playerOne -= 10000
+                        playerOne -= 1000
                 except IndexError:
                     pass
 
 
 
                 try:
-                    #diagonal up
+                    #searching for friendly tokens in a diagonal in the left to right direction, in a row
                     if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == 1:
                         playerOne += 10
                     if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 1:
                         playerOne += 100
                     if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 1:
-                        playerOne += 10000
+                        playerOne += 1000
 
+                    #searching for enemy tokens in a diagonal in the left to right direction, in a row
                     if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == 2:
                         playerOne -= 10
                     if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 2:
                         playerOne -= 100
                     if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 2:
-                        playerOne -= 10000
-
+                        playerOne -= 1000
                 except IndexError:
                     pass
-                    #diagonal down
+
+
+                    #searching for friendly tokens in a diagonal in the right to left direction, in a row
                     if board.height > j - 3 > 0 and test[i][j] == test[i - 1][j - 1] == 1:
                         playerOne += 10
                     if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 1:
                         playerOne += 100
                     if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 1:
-                        playerOne += 10000
+                        playerOne += 1000
 
+                    #searching for enemy tokens in a diagonal in the right to left direction, in a row
                     if board.height > j - 3 > 0 and test[i][j] == test[i - 1][j - 1] == 2:
                         playerOne -= 10
                     if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 2:
                         playerOne -= 100
                     if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 2:
-                        playerOne -= 10000
+                        playerOne -= 1000
 
                 except IndexError:
                     pass
 
         print(playerOne)
         return playerOne
-        #studentCount = 42
-        #opponentCount = 42
-        #rowCount = 0
+        """Your evaluation function should look at the current state and return a score for it.
+        As an example, the random agent provided works as follows:
+            If the opponent has won this game, return -1.
+            If we have won the game, return 1.
+            If neither of the players has won, return a random number.
 
 
-        #print(test)
-        #return 0
+        These are the variables and functions for board objects which may be helpful when creating your Agent.
+        Look into board.py for more information/descriptions of each, or to look for any other definitions which may help you.
 
-        #for row in range(0, board.height):
-        #    for col in range(0, board.width):
-        #        if board.get_cell_value(row, board.height) == 2:
-        #            studentCount = studentCount - 1
-        #            print(studentCount)
+        Board Variables:
+            board.width
+            board.height
+            board.last_move
+            board.num_to_connect
+            board.winning_zones
+            board.score_array
+            board.current_player_score
 
-                #if board.get_cell_value(col, board.width) == 2:
-                #    studentCount = studentCount - 1
-                #    print(studentCount)
-
-
-
-        #if studentCount >= opponentCount:
-        #    return 0
-        #else:
-        #    return 1
-
-
-        #print(row, rowCount)
-
-        #for row in range(0 , board.height):
-        #    for col in range(0 , board.width):
-        #        print(board.get_cell_value(row, col))
-        #print("================================")
-
-
-        #print(board.width)
-        #print("================================")
-
-        #return random.uniform(0, 1)
-
-
-
-        #"""Your evaluation function should look at the current state and return a score for it.
-        #As an example, the random agent provided works as follows:
-    #        If the opponent has won this game, return -1.
-#            If we have won the game, return 1.
-#            If neither of the players has won, return a random number.
-#
-#
-#        These are the variables and functions for board objects which may be helpful when creating your Agent.
-#        Look into board.py for more information/descriptions of each, or to look for any other definitions which may help you.
-#
-#        Board Variables:
-#            board.width
-#            board.height
-#            board.last_move
-#            board.num_to_connect
-#            board.winning_zones
-#            board.score_array
-#            board.current_player_score
-#
-#        Board Functions:
-#            get_cell_value(row, col)
-#            try_move(col)
-#            valid_move(row, col)
-#            valid_moves()
-#            terminal(self)
-#            legal_moves()
-#            next_state(turn)
-#            winner()
-#    """
-#
-#        """+1 to each available tile"""
-#        """if opponent has 2 in a row, block"""
-#        """for i in range(10):
-#            print (i)"""
-#
-#        """board.valid_moves"""
-#
-#        """for i in range(self.width):
-#            same_count = 1
-#            curr = self.board[0][i]
-#            for j in range(1, self.height):
-#                if self.board[j][i] == curr:
-#                    same_count += 1
-#                    if same_count == 2 and curr != 0:
-#                        return curr
-#                else:
-#                    same_count = 1
-#                    curr = self.board[j][i]
-###
-#    #    if board.get_cell_value(0, 4) == 2:
-#            return 0
-#        elif board.get_cell_value(0, 4) == 1:
-#            return 1
-#        else:
-#            return random.uniform(0,1)
-#        return 0
-#
-#        return random.uniform(0, 1)"""
-#        """board1 = board[3][3]
-#        return board1"""
-#
-#        """for row in range(0 , board.height):
-#            for col in range(0 , board.width):
-#                print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
-#        print("========================================")
+        Board Functions:
+            get_cell_value(row, col)
+            try_move(col)
+            valid_move(row, col)
+            valid_moves()
+            terminal(self)
+            legal_moves()
+            next_state(turn)
+            winner()
+    """
