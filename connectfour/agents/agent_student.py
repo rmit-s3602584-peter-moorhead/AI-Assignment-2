@@ -7,7 +7,7 @@ class StudentAgent(RandomAgent):
         super().__init__(name)
         self.MaxDepth = 4
 
-    def test(self, board):
+    def boardSim(self, board):
         for row in range(0 , board.height):
             for col in range(0 , board.width):
                 print(row , col , " the piece in this cell is a " , board.get_cell_value(row , col))
@@ -47,11 +47,13 @@ class StudentAgent(RandomAgent):
         if depth == 2 and board.winner() == self.id%2+1:
             return -100000
 
+        #check if opponent wins in 3 moves, return large negative to block
         if depth == 3 and board.winner() == self.id%2+1:
-            return -100001
+            return -10000
 
+        #check if opponent wins in 4 moves, return large negative to block
         if depth == 4 and board.winner() == self.id%2+1:
-            return -100002
+            return -1000
 
         if depth == self.MaxDepth:
             return self.evaluateBoardState(board)
@@ -79,38 +81,42 @@ class StudentAgent(RandomAgent):
         return bestVal
 
 
-    def test1():
-        return print("test")
+    def boardSim1():
+        return print("boardSim")
 
     def evaluateBoardState(self, board):
 
         #student board state score, init to 0
         playerOne = 0
         #2d array init to the current board state
-        test = board.board
+        boardSim = board.board
 
         """search through the 2d array for 1 - 3 tokens in a row, giving higher priority depending
         on if there is just one friendly token in a row or 3, or enemy token's 1 or 3 in a row
         """
 
+        if board.next_state and board.winner() == self.id:
+            print("win")
+            return 100000000000
+
         for i in range(0, board.height):
             for j in range(0, board.width):
                 try:
                     #searching for friendly tokens in a vertical line
-                    if test[i][j] == test[i + 1][j] == 1:
+                    if boardSim[i][j] == boardSim[i + 1][j] == 1:
                         playerOne += 10
-                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == 1:
+                    if boardSim[i][j] == boardSim[i + 1][j] == boardSim[i + 2][j] == 1:
                         playerOne += 100
-                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == test[i + 3][j] == 1:
+                    if boardSim[i][j] == boardSim[i + 1][j] == boardSim[i + 2][j] == boardSim[i + 3][j] == 1:
                         playerOne += 1000
 
                     #searching for vertical enemy tokens in a vertical line
-                    if test[i][j] == test[i + 1][j] == 2:
+                    if boardSim[i][j] == boardSim[i + 1][j] == 2:
                         playerOne -= 10
-                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == 2:
+                    if boardSim[i][j] == boardSim[i + 1][j] == boardSim[i + 2][j] == 2:
                         playerOne -= 100
-                    if test[i][j] == test[i + 1][j] == test[i + 2][j] == test[i + 3][j] == 2:
-                        playerOne -= 1000
+                    if boardSim[i][j] == boardSim[i + 1][j] == boardSim[i + 2][j] == boardSim[i + 3][j] == 2:
+                        playerOne -= 10000
                 except IndexError:
                     pass
 
@@ -118,20 +124,20 @@ class StudentAgent(RandomAgent):
 
                 try:
                     #searching for friendly tokens in a horizontal line
-                    if test[i][j] == test[i][j + 1] == 1:
+                    if boardSim[i][j] == boardSim[i][j + 1] == 1:
                         playerOne += 10
-                    if test[i][j] == test[i][j + 1] == test[i][j + 2] == 1:
+                    if boardSim[i][j] == boardSim[i][j + 1] == boardSim[i][j + 2] == 1:
                         playerOne += 100
-                    if test[i][j] == test[i][j + 1] == test[i + 2][j] == test[i][j + 3] == 1:
+                    if boardSim[i][j] == boardSim[i][j + 1] == boardSim[i + 2][j] == boardSim[i][j + 3] == 1:
                         playerOne += 1000
 
                     #searching for enemy tokens in a horizontal line
-                    if test[i][j] == test[i][j + 1] == 2:
+                    if boardSim[i][j] == boardSim[i][j + 1] == 2:
                         playerOne -= 10
-                    if test[i][j] == test[i][j + 1] == test[i][j + 2] == 2:
+                    if boardSim[i][j] == boardSim[i][j + 1] == boardSim[i][j + 2] == 2:
                         playerOne -= 100
-                    if test[i][j] == test[i][j + 1] == test[i][j + 2] == test[i][j + 3] == 2:
-                        playerOne -= 1000
+                    if boardSim[i][j] == boardSim[i][j + 1] == boardSim[i][j + 2] == boardSim[i][j + 3] == 2:
+                        playerOne -= 10000
                 except IndexError:
                     pass
 
@@ -139,39 +145,39 @@ class StudentAgent(RandomAgent):
 
                 try:
                     #searching for friendly tokens in a diagonal in the left to right direction, in a row
-                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == 1:
+                    if 0 < j + 3 < board.height and boardSim[i][j] == boardSim[i + 1][j + 1] == 1:
                         playerOne += 10
-                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 1:
+                    if 0 < j + 3 < board.height and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == 1:
                         playerOne += 100
-                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 1:
+                    if 0 < j + 3 < board.height and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == boardSim[i + 3][j + 3] == 1:
                         playerOne += 1000
 
                     #searching for enemy tokens in a diagonal in the left to right direction, in a row
-                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == 2:
+                    if 0 < j + 3 < board.height and boardSim[i][j] == boardSim[i + 1][j + 1] == 2:
                         playerOne -= 10
-                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 2:
+                    if 0 < j + 3 < board.height and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == 2:
                         playerOne -= 100
-                    if 0 < j + 3 < board.height and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 2:
-                        playerOne -= 1000
+                    if 0 < j + 3 < board.height and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == boardSim[i + 3][j + 3] == 2:
+                        playerOne -= 10000
                 except IndexError:
                     pass
 
 
                     #searching for friendly tokens in a diagonal in the right to left direction, in a row
-                    if board.height > j - 3 > 0 and test[i][j] == test[i - 1][j - 1] == 1:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j - 1] == 1:
                         playerOne += 10
-                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 1:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == 1:
                         playerOne += 100
-                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 1:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == boardSim[i + 3][j + 3] == 1:
                         playerOne += 1000
 
                     #searching for enemy tokens in a diagonal in the right to left direction, in a row
-                    if board.height > j - 3 > 0 and test[i][j] == test[i - 1][j - 1] == 2:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j - 1] == 2:
                         playerOne -= 10
-                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == 2:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == 2:
                         playerOne -= 100
-                    if board.height > j - 3 > 0 and test[i][j] == test[i + 1][j + 1] == test[i + 2][j + 2] == test[i + 3][j + 3] == 2:
-                        playerOne -= 1000
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == boardSim[i + 3][j + 3] == 2:
+                        playerOne -= 10000
 
                 except IndexError:
                     pass
