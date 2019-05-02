@@ -77,7 +77,6 @@ class StudentAgent(RandomAgent):
             bestVal = max(vals)
 
 
-
         return bestVal
 
 
@@ -97,7 +96,7 @@ class StudentAgent(RandomAgent):
 
         if board.next_state and board.winner() == self.id:
             print("win")
-            return 100000000000
+            return 10000000
 
         for i in range(0, board.height):
             for j in range(0, board.width):
@@ -163,22 +162,22 @@ class StudentAgent(RandomAgent):
                     pass
 
 
+                try:
                     #searching for friendly tokens in a diagonal in the right to left direction, in a row
-                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j - 1] == 1:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j + 1] == 1:
                         playerOne += 10
-                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == 1:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j + 1] == boardSim[i - 2][j + 2] == 1:
                         playerOne += 100
-                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == boardSim[i + 3][j + 3] == 1:
-                        playerOne += 1000
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j + 1] == boardSim[i - 2][j + 2] == boardSim[i - 3][j + 3] == 1:
+                        playerOne += 10000
 
                     #searching for enemy tokens in a diagonal in the right to left direction, in a row
-                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j - 1] == 2:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j + 1] == 2:
                         playerOne -= 10
-                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == 2:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j + 1] == boardSim[i - 2][j + 2] == 2:
                         playerOne -= 100
-                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i + 1][j + 1] == boardSim[i + 2][j + 2] == boardSim[i + 3][j + 3] == 2:
+                    if board.height > j - 3 > 0 and boardSim[i][j] == boardSim[i - 1][j + 1] == boardSim[i - 2][j + 2] == boardSim[i - 3][j + 3] == 2:
                         playerOne -= 10000
-
                 except IndexError:
                     pass
 
